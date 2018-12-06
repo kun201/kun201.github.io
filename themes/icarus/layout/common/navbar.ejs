@@ -38,8 +38,9 @@
                 </a>
                 <% } %>
                 <% if (has_config('search.type')) { %>
-                <a class="navbar-item search" title="<%= __('search.search') %>" href="javascript:;">
+                <a class="navbar-item search" href="javascript:;">
                     <i class="fas fa-search"></i>
+                    <p><%= __('search.search') %></p>
                 </a>
                 <% } %>
             </div>
