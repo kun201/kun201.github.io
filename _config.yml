@@ -4,7 +4,7 @@
 
 # Site
 title: Kun's Home
-subtitle:
+subtitle: 咸鱼的一生
 description:
 keywords:
 author: Kun
@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://www.kungege.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -81,4 +81,4 @@ deploy:
   type: git
   repo: https://github.com/kun201/kun201.github.io.git
   branch: master
-  message: 更换了一个主题
+  message: 
