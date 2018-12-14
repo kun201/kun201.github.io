@@ -64,3 +64,5 @@ tags: vi/vim编辑器
 ![vi/vim键位图（转自菜鸟教程）](https://i.imgur.com/8eefgQy.gif) 
 <!-- /images/Linux/vi-vim键位图.gif-->
 
+## 结束语 #
+&emsp;&emsp;参考：《鸟叔的Linux私房菜》
