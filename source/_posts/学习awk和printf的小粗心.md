@@ -1,8 +1,8 @@
 ---
 title: 学习awk和printf的小粗心事件记录
 date: 2018-12-20 21:50:06
-thumbnail:
-categories: [Linux]
+thumbnail: https://i.imgur.com/TG44pls.jpg #/images/others/timg.jpg
+categories: [Linux,数据操作]
 tags: [随笔,粗心的我]
 ---
 
