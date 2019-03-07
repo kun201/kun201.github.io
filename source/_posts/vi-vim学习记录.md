@@ -61,6 +61,7 @@ tags: vi/vim编辑器
     15.【:wq】。
 &emsp;&emsp;如果结果和上面的一样，那么基本上的操作都没有什么问题了，剩下的只需要多多打字练习。
 
+## vi/vim键位图 #
 ![vi/vim键位图（转自菜鸟教程）](https://i.imgur.com/8eefgQy.gif) 
 <!-- /images/Linux/vi-vim键位图.gif-->
 
