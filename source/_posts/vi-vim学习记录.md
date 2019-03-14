@@ -68,4 +68,4 @@ tags: vi/vim编辑器
 <!-- /images/Linux/vi-vim键位图.gif-->
 
 ## 参考 #
-&emsp;&emsp;《鸟叔的Linux私房菜》、菜鸟教程
+&emsp;&emsp;《鸟哥的Linux私房菜》、菜鸟教程
