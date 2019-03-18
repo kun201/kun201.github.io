@@ -29,6 +29,7 @@ navbar:
         分类: /categories
         标签: /tags
         关于: /about
+        正在读...: /reading
         网站历程: /history
     # Navigation bar links to be shown on the right
     # links:
