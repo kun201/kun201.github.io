@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>jenkins-pipeline记录 - Kun&#39;s Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="前言因为项目需求，现需学习持续集成相关技术，多次权衡以后，决定使用jenkins实现功能。关于jenkins的介绍我就不多说了，能看到这篇博客的人都应该有所了解，就算没听过相信各位对搜索引擎的使用也是非常熟练。 项目结构这是一个模拟Maven多模块的项目，暂时就只有一个子模块，不用纠结是否为真正的‘多’模块。 &amp;emsp;&amp;emsp;back_end    (父级)&amp;emsp;&amp;emsp;&amp;ems">
+<meta name="keywords" content="jenkins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jenkins-pipeline记录">
+<meta property="og:url" content="https://www.kungege.cn/2019/03/07/jenkins-pipeline记录/index.html">
+<meta property="og:site_name" content="Kun&#39;s Home">
+<meta property="og:description" content="前言因为项目需求，现需学习持续集成相关技术，多次权衡以后，决定使用jenkins实现功能。关于jenkins的介绍我就不多说了，能看到这篇博客的人都应该有所了解，就算没听过相信各位对搜索引擎的使用也是非常熟练。 项目结构这是一个模拟Maven多模块的项目，暂时就只有一个子模块，不用纠结是否为真正的‘多’模块。 &amp;emsp;&amp;emsp;back_end    (父级)&amp;emsp;&amp;emsp;&amp;ems">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/ZgTFMD7.png">
+<meta property="og:image" content="https://i.imgur.com/Ta450pQ.png">
+<meta property="og:image" content="https://i.imgur.com/MsxFnZo.png">
+<meta property="og:updated_time" content="2019-04-09T02:45:39.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jenkins-pipeline记录">
+<meta name="twitter:description" content="前言因为项目需求，现需学习持续集成相关技术，多次权衡以后，决定使用jenkins实现功能。关于jenkins的介绍我就不多说了，能看到这篇博客的人都应该有所了解，就算没听过相信各位对搜索引擎的使用也是非常熟练。 项目结构这是一个模拟Maven多模块的项目，暂时就只有一个子模块，不用纠结是否为真正的‘多’模块。 &amp;emsp;&amp;emsp;back_end    (父级)&amp;emsp;&amp;emsp;&amp;ems">
+<meta name="twitter:image" content="https://i.imgur.com/ZgTFMD7.png">
+
+
+
+
+
+<link rel="icon" href="https://i.imgur.com/mwkU69j.jpg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                Kun&#39;s Home
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+                <a class="navbar-item" href="/reading">正在读...</a>
+                
+                <a class="navbar-item" href="/history">网站历程</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                    <p>搜索</p>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/Jenkins/actor.pngs" alt="jenkins-pipeline记录">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-07T01:55:20.000Z">2019-03-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/运维/">运维</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2329 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                jenkins-pipeline记录
+            
+        </h1>
+        <div class="content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为项目需求，现需学习持续集成相关技术，多次权衡以后，决定使用jenkins实现功能。关于jenkins的介绍我就不多说了，能看到这篇博客的人都应该有所了解，就算没听过相信各位对搜索引擎的使用也是非常熟练。</p>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>这是一个模拟Maven多模块的项目，暂时就只有一个子模块，不用纠结是否为真正的‘多’模块。</p>
+<p>&emsp;&emsp;back_end    (父级)<br>&emsp;&emsp;&emsp;&emsp;一pom.xml<br>&emsp;&emsp;&emsp;&emsp;一back_end_web  (Web层)<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;一pom.xml<br><a id="more"></a></p>
+<p>此时项目内已经有了几个接口以供测试，因重点不在这上面，这部分就结束了。</p>
+<h2 id="创建jenkins-pipelin项目"><a href="#创建jenkins-pipelin项目" class="headerlink" title="创建jenkins pipelin项目"></a>创建jenkins pipelin项目</h2><p>假定你已经安装了jenkins，也将Maven代码上传到Git进行管理，接下来我们就要利用jenkins来创建一个从Git版本库来下载代码并自动打包、部署测试的</p>
+<p><font color="#008000" size="4">创建项目</font><br>点击主页面右上角的<strong>New 任务</strong>来进入创建界面，然后输入你的<strong>项目名</strong>，选择<strong>流水线</strong>项目，点击<strong>OK</strong>来完成创建。</p>
+<p><font color="#008000" size="4">配置项目</font><br><img src="https://i.imgur.com/ZgTFMD7.png" alt=""><br><!-- /images/Jenkins/1.png--><br>直接点击最上方的Pipeline进行流水线的设置，其它的配置暂时先不管。<br>1.直接点解<strong>Pipeline</strong>进入流水线的设置，其它的可以先不管;<br>2.点击下拉框选择<strong>Pipeline script from SCM</strong>;<br>3.点击下拉框选择<strong>Git</strong>，因为我使用的是Git来管理项目代码，可以视情况选择;<br>4.设置Git版本库的路径，为了方便测试我设置为本地仓库的绝对路径，也就是Git clone后存储位置的绝对路径，和填网络版本库地址的效果是一样的，只是可以不做push这个操作，节省时间。<strong>注：如果是用容器启动的jenkins，一定要将代码所在的目录在jenkins容器内做个映射，这样jenkins才能取得你的代码，待会儿我给的参考链接里有详细教程</strong>；<br>5.设置要操作的分支，默认是master分支，视情况选择；<br>6.设置流水线脚本的路径，填写在你项目里的相对路径。<br>最后点击保存以后，就完成了简单的项目配置。</p>
+<h2 id="编辑流水线脚本和自动化构建脚本"><a href="#编辑流水线脚本和自动化构建脚本" class="headerlink" title="编辑流水线脚本和自动化构建脚本"></a>编辑流水线脚本和自动化构建脚本</h2><p><font color="#008000" size="4">编辑pipelin的运行脚本</font><br>首先，我们先编辑Pipeline的脚本文件，名字和路径一定要和上面第六步对应，脚本内容如下。<strong>请注意，以下注释只是我为了方便理解，请不要在需要运行的脚本内这样写。</strong><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(&apos;Build Tests&apos;) &#123;</span><br><span class="line">            agent &#123;</span><br><span class="line">                docker &#123;</span><br><span class="line">                    image &apos;maven:3.6-alpine&apos;</span><br><span class="line">                    args &apos;-v /work/jenkins/root/.m2:/root/.m2 --link mysql:mysql&apos; #这里是启动容器时的参数，第二个link是因为连接数据库碰到了一个bug，稍后再解释</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">            sh &apos;./jenkins/scripts/tests.sh&apos; #执行打包和测试脚本</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&apos;Deploy&apos;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh &apos;./jenkins/scripts/deploy.sh&apos; #执行部署脚本</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>-v /work/jenkins/root/.m2:/root/.m2：</strong>为了让Maven仓库得到保存，方便下一次构建。<br><strong>–link mysql:mysql：</strong>将name为<strong>mysql</strong>的容器链接起来，并给予别名为<strong>mysql</strong>，为什么要这样做？<br>mysql和java服务运行在同一个物理机不同的两个容器内，因此通信的方式可以通过上述link的链接方式，以及访问物理机IP地址的方式来进行连接。我首先使用的是用IP地址的方式来访问，结果在启动时连接MySQL数据库，日志打印出了这样的一个错误：<font color="#FFA500" size="4">Communications link failure</font>。这个问题我在网络上搜索了很久，有3种解决方案，数据库连接URL增加参数、修改MySQL数据库的等待时间、修改URL请求的地址为localhost。很明显，以上3种方案都不适合我，我在其它物理机上是可以正常连接的，而且我们碰到问题时机器的环境不同。最终我只能改用docker运行时创建别名的方式，连接地址直接填写MySQL数据库的的别名，其实我不是很喜欢这种方式，增加耦合度，不便部署。如果有碰到这种情况的，也可以将你的解决方式在下面回复我，我还在寻找产生这样问题的原因。</p>
+<p><font color="#008000" size="4">编辑tests.sh</font><br>现在要编辑执行打包、测试功能的脚本了。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">#Just a Tests shell script</span><br><span class="line">#2019/3/4    kun    First release</span><br><span class="line"></span><br><span class="line">#日志文件路径</span><br><span class="line">LOGFILE=&quot;./start.log&quot;</span><br><span class="line">#Springboot项目启动成功时日志会有&apos;Server Started&apos;输出，以此来检测是否成功启动</span><br><span class="line">START=&apos;Server Started&apos;</span><br><span class="line"></span><br><span class="line">#执行打包操作</span><br><span class="line">mvn -B -DskipTests package</span><br><span class="line"></span><br><span class="line">#后台启动项目，并且将日志输入到指定文件，以检查是否成功启动</span><br><span class="line">java -jar back_end_web/target/*.jar &gt;&quot;$&#123;LOGFILE&#125;&quot; &amp;</span><br><span class="line">sleep 30    #等待30秒，项目启动比较费时</span><br><span class="line">cat &quot;$&#123;LOGFILE&#125;&quot;    #将日志输出，方便我在Jenkins控制台查看结果</span><br><span class="line">#判断是否正常启动，否则退出本次脚本</span><br><span class="line">grep &quot;$&#123;START&#125;&quot; $&#123;LOGFILE&#125; &amp;&amp; echo &quot;$&#123;START&#125;&quot; || exit 1</span><br><span class="line">#将jar包移动到指定的工作目录，方便我在接下来的deploy脚本内进行构建docker容器操作</span><br><span class="line">cp back_end_web/target/*.jar /home/git/back_end/</span><br></pre></td></tr></table></figure></p>
+<p><font color="#008000" size="4">编辑deploy.sh</font><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">#Just a Deploy shell script</span><br><span class="line">#2019/3/4    Kun    First release</span><br><span class="line"></span><br><span class="line">cd /home/git/back_end/  #进入工作目录</span><br><span class="line">#取得jar包的名称</span><br><span class="line">JARNAME=&quot;$(ls ./*.jar | awk &apos;NR==1&#123;print $1&#125;&apos;)&quot;</span><br><span class="line"></span><br><span class="line">#取出版本号，稍后image将以jar版本号作为标签，区分每个版本的image</span><br><span class="line">VERSION=$&#123;JARNAME#*-&#125; &amp;&amp; VERSION=$&#123;VERSION%-*&#125;</span><br><span class="line">IMAGENAME=&quot;pipixia:$&#123;VERSION&#125;&quot;</span><br><span class="line"></span><br><span class="line">#构建docker镜像，构建完成后删除jar包</span><br><span class="line">docker build -t $&#123;IMAGENAME&#125; . &amp;&amp; rm $&#123;JARNAME&#125;</span><br><span class="line"></span><br><span class="line">#检查是否已经有名为&apos;pipixia&apos;的容器在运行中，如果有就将其干掉</span><br><span class="line">docker ps -a | grep &apos;pipixia&apos; &amp;&amp; docker stop pipixia &amp;&amp; docker rm pipixia</span><br><span class="line"></span><br><span class="line">#启动刚刚构建完成的容器，link的原因我已经说过了，就不再赘述了，而卷映射只是我的需求，各位可以试实际情况来操作</span><br><span class="line">docker run -d -p 8080:8080 -v /work/pipixia/upload:/upload --link mysql:mysql --name pipixia $&#123;IMAGENAME&#125;</span><br></pre></td></tr></table></figure></p>
+<p><font color="#008000" size="4">编辑Dockerfile</font><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:8-jdk-alpine</span><br><span class="line">MAINTAINER &quot;kun@kungege.cn&quot;</span><br><span class="line"></span><br><span class="line">#设置时区</span><br><span class="line">RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">RUN echo &apos;Asia/Shanghai&apos; &gt;/etc/timezone</span><br><span class="line"></span><br><span class="line">#将打包好的脚本复制到指定目录</span><br><span class="line">COPY ./*.jar /jar/pipixia.jar</span><br><span class="line"></span><br><span class="line">#启动命令</span><br><span class="line">CMD [&quot;java&quot;, &quot;-jar&quot;, &quot;/jar/pipixia.jar&quot;]</span><br></pre></td></tr></table></figure></p>
+<p><font color="#008000" size="4">测试运行</font><br>接下来就到了检验结果的时候了，手动点击<strong>立即构建</strong>，测试一下能否正常跑起来，成功后的结果应该如图，碰到什么问题可以在下面留言。<br><img src="https://i.imgur.com/Ta450pQ.png" alt=""><br><!-- /images/Jenkins/2.png--></p>
+<h2 id="自动部署"><a href="#自动部署" class="headerlink" title="自动部署"></a>自动部署</h2><p>通过了上面的步骤，此时我们的pipeline已经可以正常工作了，但是不可能每次都手动去构建，这时候只需要在jenkins的项目内设置一下。首先在创建pipeline项目的第4步，将版本库的地址更改为网络地址，将分支更改为需要自动部署的分支。然后设置轮询SCM的方案，每10分钟自动检查一次版本库是否更新，因为我使用的是GitBlit，不支持推送后发送提醒到Jenkins(也许是我没找到相关文档)。GitHub和GitLab用户可以使用更智能的方法，更新后给Jenkins主动发送信号。<br><img src="https://i.imgur.com/MsxFnZo.png" alt=""><br><!-- /images/Jenkins/3.png--><br>完成了以上操作，再随意将项目更新一点东西，并提交测试，等待10分钟内，就会发现Jenkins自动完成了一次构建，这时候算是完成了一个简单持续集成项目。</p>
+<h2 id="结尾-amp-参考链接"><a href="#结尾-amp-参考链接" class="headerlink" title="结尾&amp;参考链接"></a>结尾&amp;参考链接</h2><p>时隔3个多月，又一次写了博客，记录一下工作时使用的技术，免得过段时间又忘记了。一天天的，有时候都不知道自己究竟在做什么啊，唉，人生啊！<br>纵观全文，一些解决问题的方式可能太过低级，需要更优雅的方式，大家路过了还希望能够留下一些自己的意见，谢谢！</p>
+<p><font color="#008000" size="4">参考链接</font><br>1.<a href="https://jenkins.io/zh/doc/tutorials/build-a-java-app-with-maven/" target="_blank" rel="noopener">使用Maven构建Java程序</a>：来自Jenkins官网，如果你去看过，就会发现我上面步骤基本是照着这个教程修改。<br>2.<a href="https://jenkins.io/zh/doc/book/pipeline/" target="_blank" rel="noopener">Jenkins流水线</a>：了解pipeline相关的概念以及语法。<br>3.<a href="https://blog.csdn.net/u011541946/article/details/83627600" target="_blank" rel="noopener">Jenkins语法-多个stage关系:顺序和并行</a>和<a href="https://www.cnblogs.com/YatHo/p/7856556.html" target="_blank" rel="noopener">pipeline使用之语法详解</a>：我从中得到了什么？这都忘了…我是不是不太适合干这一行了？？<br>4.<a href="https://www.cnblogs.com/Leo_wl/p/4314792.html" target="_blank" rel="noopener">使用Jenkins来构建Docker容器</a>：参考了一些想法。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/jenkins/">jenkins</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/20/学习awk和printf的小粗心/">
+                <span class="level-item">学习awk和printf的小粗心事件记录</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MTc0Ni8xODI5Mg==">
+    <script type="text/javascript">
+        (function(d, s) {
+            var j, e = d.getElementsByTagName(s)[0];
+
+            if (typeof LivereTower === 'function') { return; }
+
+            j = d.createElement(s);
+            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+            j.async = true;
+
+            e.parentNode.insertBefore(j, e);
+        })(document, 'script');
+    </script>
+    <noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="https://i.imgur.com/K6aal7f.jpg" alt="Kun">
+                    
+                    <p class="is-size-4 is-block">
+                        Kun
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        I&#39;m a good man!
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hunan, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/kun201">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/kun201">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/07/jenkins-pipeline记录/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/Jenkins/actor.pngs" alt="jenkins-pipeline记录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-07T01:55:20.000Z">2019-03-07</time></div>
+                    <a href="/2019/03/07/jenkins-pipeline记录/" class="has-link-black-ter is-size-6">jenkins-pipeline记录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/运维/">运维</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/20/学习awk和printf的小粗心/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/others/timg.jpg" alt="学习awk和printf的小粗心事件记录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-20T13:50:06.000Z">2018-12-20</time></div>
+                    <a href="/2018/12/20/学习awk和printf的小粗心/" class="has-link-black-ter is-size-6">学习awk和printf的小粗心事件记录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/数据操作/">数据操作</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/13/vi-vim学习记录/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/Linux/键盘飞牙图.jpg" alt="vi/vim学习记录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-13T07:12:01.000Z">2018-12-13</time></div>
+                    <a href="/2018/12/13/vi-vim学习记录/" class="has-link-black-ter is-size-6">vi/vim学习记录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/数据操作/">数据操作</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/07/第一篇博客/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/v/v.jpg" alt="第一篇博客">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-07T13:38:47.000Z">2018-12-07</time></div>
+                    <a href="/2018/12/07/第一篇博客/" class="has-link-black-ter is-size-6">第一篇博客</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/随笔/">随笔</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!-- <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    Kun&#39;s Home
+                
+                </a> -->
+                <p class="is-size-7">
+                &copy; 2019 Kun&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>vi/vim学习记录 - Kun&#39;s Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="随便说几句&amp;emsp;&amp;emsp;在Linux上，有着各式各样的文本编辑器，为什么非要学习vi/vim呢？原因无外乎有以下几点：&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;- 所有的UNIK-like系统都会内置vi文本编辑器，其它的不一定存在；&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;- 很多软件的编辑借口都会主动调用vi（crontab、visudo、edquota等）；&amp;emsp;">
+<meta name="keywords" content="vi&#x2F;vim编辑器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vi&#x2F;vim学习记录">
+<meta property="og:url" content="https://www.kungege.cn/2018/12/13/vi-vim学习记录/index.html">
+<meta property="og:site_name" content="Kun&#39;s Home">
+<meta property="og:description" content="随便说几句&amp;emsp;&amp;emsp;在Linux上，有着各式各样的文本编辑器，为什么非要学习vi/vim呢？原因无外乎有以下几点：&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;- 所有的UNIK-like系统都会内置vi文本编辑器，其它的不一定存在；&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;- 很多软件的编辑借口都会主动调用vi（crontab、visudo、edquota等）；&amp;emsp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.kungege.cn/images/Linux/vi-vim键位图.gif">
+<meta property="og:updated_time" content="2019-04-09T02:46:38.008Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vi&#x2F;vim学习记录">
+<meta name="twitter:description" content="随便说几句&amp;emsp;&amp;emsp;在Linux上，有着各式各样的文本编辑器，为什么非要学习vi/vim呢？原因无外乎有以下几点：&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;- 所有的UNIK-like系统都会内置vi文本编辑器，其它的不一定存在；&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;- 很多软件的编辑借口都会主动调用vi（crontab、visudo、edquota等）；&amp;emsp;">
+<meta name="twitter:image" content="https://www.kungege.cn/images/Linux/vi-vim键位图.gif">
+
+
+
+
+
+<link rel="icon" href="https://i.imgur.com/mwkU69j.jpg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                Kun&#39;s Home
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+                <a class="navbar-item" href="/reading">正在读...</a>
+                
+                <a class="navbar-item" href="/history">网站历程</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                    <p>搜索</p>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/Linux/键盘飞牙图.jpg" alt="vi/vim学习记录">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-13T07:12:01.000Z">2018-12-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Linux/">Linux</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Linux/数据操作/">数据操作</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 分钟 读完 (大约 3768 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                vi/vim学习记录
+            
+        </h1>
+        <div class="content">
+            <h2 id="随便说几句"><a href="#随便说几句" class="headerlink" title="随便说几句"></a>随便说几句</h2><p>&emsp;&emsp;在Linux上，有着各式各样的文本编辑器，为什么非要学习vi/vim呢？原因无外乎有以下几点：<br>&emsp;&emsp;&emsp;&emsp;- 所有的UNIK-like系统都会内置vi文本编辑器，其它的不一定存在；<br>&emsp;&emsp;&emsp;&emsp;- 很多软件的编辑借口都会主动调用vi（crontab、visudo、edquota等）；<br>&emsp;&emsp;&emsp;&emsp;- vim具有程序编辑的能力，可以主动地通过自体颜色来辨别语法的正确性；<br>&emsp;&emsp;&emsp;&emsp;- 程序简单，编辑速度很快。<br><a id="more"></a><br>&emsp;&emsp;也就是说，不论如何你都能在Linux上使用到vi编辑器，而不会因为更换了一个系统，又要重新学习编辑器的使用。不会使用vi，那么很多命令根本无法操作（crontab、visudo、edquota），所以不管怎样，都需要学习vi编辑器。</p>
+<h2 id="vi-vim按键说明"><a href="#vi-vim按键说明" class="headerlink" title="vi/vim按键说明"></a>vi/vim按键说明</h2><p>以下是大部分vi/vim的按键说明表</p>
+<p><strong>第一部份：一般模式可用的光标移动、复制粘贴、搜索替换等</strong><table> <tr><th colspan="2" bgcolor="#555"><font color="#FFFFFF"> 移动光标的方法 </font></th></tr> <tr><td bgcolor="#F5F5DC" width="25%"> h 或 向左箭头键(←)</td><td bgcolor="#F8F8FF"> 光标向左移动一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> j 或 向下箭头键(↓)</td><td bgcolor="#F8F8FF"> 光标向下移动一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> k 或 向上箭头键(↑)</td><td bgcolor="#F8F8FF"> 光标向上移动一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> l 或 向右箭头键(→)</td><td bgcolor="#F8F8FF"> 光标向右移动一个字符 </td></tr> <tr><td colspan="2"> 如果你将右手放在键盘上的话，你会发现 hjkl 是排列在一起的，因此可以使用这四个按钮来移动光标。如果想要进行多次移动的话，例如向下移动 30 行，可以使用 “30j” 或 “30↓” 的组合按键，亦即加上想要进行的次数(数字)后，按下动作即可！</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> [Ctrl] + [f]</td><td bgcolor="#F8F8FF"> 屏幕『向下』移动一页，相当于 [Page Down]按键 (常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> [Ctrl] + [b]</td><td bgcolor="#F8F8FF"> 屏幕『向上』移动一页，相当于 [Page Up] 按键 (常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> [Ctrl] + [d]</td><td bgcolor="#F8F8FF"> 屏幕『向下』移动半页 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> [Ctrl] + [u]</td><td bgcolor="#F8F8FF"> 屏幕『向上』移动半页 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> + </td><td bgcolor="#F8F8FF"> 光标移动到非空格符的下一行 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> - </td><td bgcolor="#F8F8FF"> 光标移动到非空格符的上一行 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> n<space>     </space></td><td bgcolor="#F8F8FF"> 那个 n 表示『数字』，例如 20 。按下数字后再按空格键，光标会向右移动这一行的 n 个字符。例如 20<space> 则光标会向后面移动 20 个字符距离。</space></td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> 0 </td><td bgcolor="#F8F8FF"> 或功能键[Home]    这是数字『 0 』：移动到这一行的最前面字符处 (常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> $ </td><td bgcolor="#F8F8FF"> 或功能键[End]    移动到这一行的最后面字符处(常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> H </td><td bgcolor="#F8F8FF"> 光标移动到这个屏幕的最上方那一行的第一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> M </td><td bgcolor="#F8F8FF"> 光标移动到这个屏幕的中央那一行的第一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> L </td><td bgcolor="#F8F8FF"> 光标移动到这个屏幕的最下方那一行的第一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> G </td><td bgcolor="#F8F8FF"> 移动到这个档案的最后一行(常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> nG </td><td bgcolor="#F8F8FF"> n 为数字。移动到这个档案的第 n 行。例如 20G 则会移动到这个档案的第 20 行(可配合 :set nu) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> gg </td><td bgcolor="#F8F8FF"> 移动到这个档案的第一行，相当于 1G 啊！ (常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> n<enter> </enter></td><td bgcolor="#F8F8FF"> n 为数字。光标向下移动 n 行(常用) </td></tr> <tr><th colspan="2" bgcolor="#555"><font color="#FFFFFF"> 搜索替换 </font></th></tr> <tr><td bgcolor="#F5F5DC" width="25%"> /word </td><td bgcolor="#F8F8FF"> 向光标之下寻找一个名称为 word 的字符串。例如要在档案内搜寻 kun 这个字符串，就输入 /kun 即可！ (常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> ?word </td><td bgcolor="#F8F8FF"> 向光标之上寻找一个字符串名称为 word 的字符串。 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> n </td><td bgcolor="#F8F8FF"> 这个 n 是英文按键。代表重复前一个搜寻的动作。举例来说， 如果刚刚我们执行 /kun 去向下搜寻 kun 这个字符串，则按下 n 后，会向下继续搜寻下一个名称为 kun 的字符串。如果是执行 ?kun 的话，那么按下 n 则会向上继续搜寻名称为 kun 的字符串！ </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> N </td><td bgcolor="#F8F8FF"> 这个 N 是英文按键。与 n 刚好相反，为『反向』进行前一个搜寻动作。 例如 /kun 后，按下 N 则表示『向上』搜寻 kun 。 </td></tr> <tr><td colspan="2"> 使用 /word 配合 n 及 N 是非常有帮助的！可以让你重复的找到一些你搜寻的关键词！ </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> :n1,n2s/word1/word2/g </td><td bgcolor="#F8F8FF"> n1 与 n2 为数字。在第 n1 与 n2 行之间寻找 word1 这个字符串，并将该字符串取代为 word2 ！举例来说，在 100 到 200 行之间搜寻 kun 并取代为 KUN 则：『:100,200s/kun/KUN/g』。(常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> :1,$s/word1/word2/g </td><td bgcolor="#F8F8FF"> 从第一行到最后一行寻找 word1 字符串，并将该字符串取代为 word2 ！(常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> :1,$s/word1/word2/gc    </td><td bgcolor="#F8F8FF"> 从第一行到最后一行寻找 word1 字符串，并将该字符串取代为 word2 ！且在取代前显示提示字符给用户确认 (confirm) 是否需要取代！(常用) </td></tr> <tr><th colspan="2" bgcolor="#555"><font color="#FFFFFF"> 删除、复制与贴上 </font></th></tr> <tr><td bgcolor="#F5F5DC" width="25%"> x, X </td><td bgcolor="#F8F8FF"> 在一行字当中，x 为向后删除一个字符 (相当于 [del] 按键)， X 为向前删除一个字符(相当于 [backspace] 亦即是退格键) (常用)    </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> nx </td><td bgcolor="#F8F8FF"> n 为数字，连续向后删除 n 个字符。举例来说，我要连续删除 10 个字符， 『10x』。 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> dd </td><td bgcolor="#F8F8FF"> 删除游标所在的那一整行(常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> ndd </td><td bgcolor="#F8F8FF"> n 为数字。删除光标所在的向下 n 行，例如 20dd 则是删除 20 行 (常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> d1G </td><td bgcolor="#F8F8FF"> 删除光标所在到第一行的所有数据</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> dG </td><td bgcolor="#F8F8FF"> 删除光标所在到最后一行的所有数据</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> d$ </td><td bgcolor="#F8F8FF"> 删除游标所在处，到该行的最后一个字符</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> d0 </td><td bgcolor="#F8F8FF"> 那个是数字的 0 ，删除游标所在处，到该行的最前面一个字符 </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> yy </td><td bgcolor="#F8F8FF"> 复制游标所在的那一行(常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> nyy </td><td bgcolor="#F8F8FF"> n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 20 行(常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> y1G </td><td bgcolor="#F8F8FF"> 复制游标所在行到第一行的所有数据</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> yG </td><td bgcolor="#F8F8FF"> 复制游标所在行到最后一行的所有数据</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> y0 </td><td bgcolor="#F8F8FF"> 复制光标所在的那个字符到该行行首的所有数据</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> y$ </td><td bgcolor="#F8F8FF"> 复制光标所在的那个字符到该行行尾的所有数据</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> p, P </td><td bgcolor="#F8F8FF"> p 为将已复制的数据在光标下一行贴上，P 则为贴在游标上一行！ 举例来说，我目前光标在第 20 行，且已经复制了 10 行数据。则按下 p 后， 那 10 行数据会贴在原本的 20 行之后，亦即由 21 行开始贴。但如果是按下 P 呢？ 那么原本的第 20 行会被推到变成 30 行。 (常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> J </td><td bgcolor="#F8F8FF"> 将光标所在行与下一行的数据结合成同一行</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> c </td><td bgcolor="#F8F8FF"> 重复删除多个数据，例如向下删除 10 行，[ 10cj ]</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> u </td><td bgcolor="#F8F8FF"> 复原前一个动作。(常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> [Ctrl]+r </td><td bgcolor="#F8F8FF"> 重做上一个动作。(常用)</td></tr> <tr><td colspan="2"> 这个 u 与 [Ctrl]+r 是很常用的指令！一个是复原，另一个则是重做一次～ 利用这两个功能按键，你的编辑，嘿嘿！很快乐的啦！ </td></tr> <tr><td bgcolor="#F5F5DC" width="25%"> . </td><td bgcolor="#F8F8FF"> 不要怀疑！这就是小数点！意思是重复前一个动作的意思。 如果你想要重复删除、重复贴上等等动作，按下小数点『.』就好了！ (常用) </td></tr> </table></p>
+<p><strong>第二部份：一般模式切换到编辑模式的可用的按钮说明</strong><table> <tr><th colspan="2" bgcolor="#555"><font color="#FFFFFF"> 进入输入或取代的编辑模式 </font></th></tr> <tr><td bgcolor="#F5F5DC" width="20%"> i, I    </td><td bgcolor="#F8F8FF"> 进入输入模式(Insert mode)：<br> i 为『从目前光标所在处输入』， I 为『在目前所在行的第一个非空格符处开始输入』。 (常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> a, A    </td><td bgcolor="#F8F8FF"> 进入输入模式(Insert mode)：<br> a 为『从目前光标所在的下一个字符处开始输入』， A 为『从光标所在行的最后一个字符处开始输入』。(常用)</td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> o, O    </td><td bgcolor="#F8F8FF"> 进入输入模式(Insert mode)：<br> 这是英文字母 o 的大小写。o 为『在目前光标所在的下一行处输入新的一行』； O 为在目前光标所在处的上一行输入新的一行！(常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> r, R    </td><td bgcolor="#F8F8FF"> 进入取代模式(Replace mode)：<br> r 只会取代光标所在的那一个字符一次；R会一直取代光标所在的文字，直到按下 ESC 为止；(常用)</td></tr> <tr><td colspan="2"> 上面这些按键中，在 vi 画面的左下角处会出现『–INSERT–』或『–REPLACE–』的字样。 由名称就知道该动作了吧！！特别注意的是，我们上面也提过了，你想要在档案里面输入字符时， 一定要在左下角处看到 INSERT 或 REPLACE 才能输入喔！ </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> [Esc] </td><td bgcolor="#F8F8FF"> 退出编辑模式，回到一般模式中(常用) </td></tr> </table></p>
+<p><strong>第三部份：一般模式切换到指令行模式的可用的按钮说明</strong><table>  <tr><th colspan="2" bgcolor="#555"><font color="#FFFFFF"> 指令行的储存、离开等指令 </font></th></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :w </td><td bgcolor="#F8F8FF"> 将编辑的数据写入硬盘档案中(常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :w! </td><td bgcolor="#F8F8FF"> 若文件属性为『只读』时，强制写入该档案。不过，到底能不能写入， 还是跟你对该档案的档案权限有关啊！ </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :q </td><td bgcolor="#F8F8FF"> 离开 vi (常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :q! </td><td bgcolor="#F8F8FF"> 若曾修改过档案，又不想储存，使用 ! 为强制离开不储存档案。 </td></tr> <tr><td colspan="2"> 注意一下啊，那个惊叹号 (!) 在 vi 当中，常常具有『强制』的意思～ </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :wq </td><td bgcolor="#F8F8FF"> 储存后离开，若为 :wq! 则为强制储存后离开 (常用) </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> ZZ </td><td bgcolor="#F8F8FF"> 这是大写的 Z 喔！若档案没有更动，则不储存离开，若档案已经被更动过，则储存后离开！ </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :w [filename] </td><td bgcolor="#F8F8FF"> 将编辑的数据储存成另一个档案（类似另存新档） </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :r [filename] </td><td bgcolor="#F8F8FF"> 在编辑的数据中，读入另一个档案的数据。亦即将 『filename』 这个档案内容加到游标所在行后面 </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :n1,n2 w [filename] </td><td bgcolor="#F8F8FF"> 将 n1 到 n2 的内容储存成 filename 这个档案。 </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :! command </td><td bgcolor="#F8F8FF"> 暂时离开 vi 到指令行模式下执行 command 的显示结果！例如：<br>『:! ls /home』即可在 vi 当中察看 /home 底下以 ls 输出的档案信息！ </td></tr> <tr><th colspan="2" bgcolor="#555"><font color="#FFFFFF"> vim 环境的变更 </font></th></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :set nu </td><td bgcolor="#F8F8FF"> 显示行号，设定之后，会在每一行的前缀显示该行的行号 </td></tr> <tr><td bgcolor="#F5F5DC" width="20%"> :set nonu </td><td bgcolor="#F8F8FF"> 与 set nu 相反，为取消行号！ </td></tr> </table> &emsp;&emsp;特别注意，在 vi/vim 中，数字是很有意义的！数字通常代表重复做几次的意思！ 也有可能是代表去到第几个什么什么的意思。举例来说，要删除 50 行，则是用 『50dd』 对吧！ 数字加在动作之前，如我要向下移动 20 行呢？那就是『20j』或者是『20↓』即可。</p>
+<h2 id="基础用法小练习"><a href="#基础用法小练习" class="headerlink" title="基础用法小练习"></a>基础用法小练习</h2><p>&emsp;&emsp;为了能够良好的应用所学，于是我将鸟叔的在该章节的小练习记录在这里，有空的时候来进行练习。由于鸟叔官网上的繁中不便于阅读，所以我打一份简中的在这里。接下来的操作都是用CentOS7.4的man_db.conf来做练习，可以在鸟哥的官网<a href="http://linux.vbird.org/linux_basic/0310vi/man_db.conf" target="_blank" rel="noopener">下载</a><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">请在/tmp这个目录下建立一个名为test的目录；</span><br><span class="line">进入test目录；</span><br><span class="line">将/etc/man_db.conf（如果你是通过上述链接下载那么就复制下载后的文件)复制到当前目录；</span><br><span class="line">使用vi打开本目录下的man_db.conf文件；</span><br><span class="line">在vi中设置一下行号；</span><br><span class="line">移动到第43行，向右移动59个字符，请问你看到的小括号内是哪几个文字？</span><br><span class="line">移动到第一行，并且向下查找【gzip】这个字符串，请问它在第几行？</span><br><span class="line">接着下来，将29到41行之间的【小写man】修改为【大写MAN】，并且询问是否修改，如何操作？结果出现改变了几个man？</span><br><span class="line">修改完之后，突然反悔了，恢复有几种方法？</span><br><span class="line">复制66到71这6行内的内容（含有MANDB_MAP），并且粘贴到最后一行后；</span><br><span class="line">删除113到128行之间开头为#符号的注释数据；</span><br><span class="line">将当前修改完的文件保存为man.test.config文件；</span><br><span class="line">在第25行，删除15个字符，结果出现的第一个字符是什么？</span><br><span class="line">在第一行新增一行，该内容输入【I am a student...】；</span><br><span class="line">保存退出。</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;如果你编辑的是上面所说的文件，那么下面的就是正确答案及步骤：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">【mkdir /tmp/test】</span><br><span class="line">【cd /tmp/test】</span><br><span class="line">【cp /etc/man_db.conf .】(或者是复制你自己的下载的文件到当前目录)</span><br><span class="line">【/bin/vi man_db.conf】</span><br><span class="line">【:set nu】就可以看见左侧显示了行号</span><br><span class="line">【43G】到43行，【59空格】按下59+空格即可向右移动59个字符，显示as这个字符在小括号内。</span><br><span class="line">【1G】或【gg】到第一行，输入【/gzip】，会去到93行才对。</span><br><span class="line">直接执行【:29,41s/man/MAN/gc】将会在29和41行间替换man为MAN，加上c让用户确认替换，一直按【y】最终会完成【13次替换，共13行】。</span><br><span class="line">一直按【u】恢复，或者【:q!】不保存且退出，再重新打开该文件。</span><br><span class="line">【66G】然后再【6yy】之后最下面的提示栏会出现【复制了6行】(提示内容视你系统的语言而定)，按下【G】到最后一行再按【p】换行粘贴。</span><br><span class="line">因为113-128共16行，因此【113G】然后【16dd】就能删除113-128行的内容，此时光标所在的行变成了【Flags】开头。</span><br><span class="line">【:w man.test.config】，你会发现最下方的状态栏显示“man.test.config&quot; [NEW]..的字样。</span><br><span class="line">【25G】之后，再按下【15x】即可删除15个字符，出现【tree】字样。</span><br><span class="line">先【1G】到第一行，然后按下大写的【O】会在上面新增一行且进入编辑模式；接着你要输入的字符串，按下【Esc】退出编辑模式。</span><br><span class="line">【:wq】。</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;如果结果和上面的一样，那么基本上的操作都没有什么问题了，剩下的只需要多多打字练习。</p>
+<h2 id="vi-vim键位图"><a href="#vi-vim键位图" class="headerlink" title="vi/vim键位图"></a>vi/vim键位图</h2><p><img src="/images/Linux/vi-vim键位图.gif" alt="vi/vim键位图（转自菜鸟教程）"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>&emsp;&emsp;《鸟哥的Linux私房菜》、菜鸟教程</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/vi-vim编辑器/">vi/vim编辑器</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/20/学习awk和printf的小粗心/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">学习awk和printf的小粗心事件记录</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/07/第一篇博客/">
+                <span class="level-item">第一篇博客</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MTc0Ni8xODI5Mg==">
+    <script type="text/javascript">
+        (function(d, s) {
+            var j, e = d.getElementsByTagName(s)[0];
+
+            if (typeof LivereTower === 'function') { return; }
+
+            j = d.createElement(s);
+            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+            j.async = true;
+
+            e.parentNode.insertBefore(j, e);
+        })(document, 'script');
+    </script>
+    <noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="https://i.imgur.com/K6aal7f.jpg" alt="Kun">
+                    
+                    <p class="is-size-4 is-block">
+                        Kun
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        I&#39;m a good man!
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hunan, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/kun201">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/kun201">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/07/jenkins-pipeline记录/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/Jenkins/actor.pngs" alt="jenkins-pipeline记录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-07T01:55:20.000Z">2019-03-07</time></div>
+                    <a href="/2019/03/07/jenkins-pipeline记录/" class="has-link-black-ter is-size-6">jenkins-pipeline记录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/运维/">运维</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/20/学习awk和printf的小粗心/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/others/timg.jpg" alt="学习awk和printf的小粗心事件记录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-20T13:50:06.000Z">2018-12-20</time></div>
+                    <a href="/2018/12/20/学习awk和printf的小粗心/" class="has-link-black-ter is-size-6">学习awk和printf的小粗心事件记录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/数据操作/">数据操作</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/13/vi-vim学习记录/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/Linux/键盘飞牙图.jpg" alt="vi/vim学习记录">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-13T07:12:01.000Z">2018-12-13</time></div>
+                    <a href="/2018/12/13/vi-vim学习记录/" class="has-link-black-ter is-size-6">vi/vim学习记录</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/数据操作/">数据操作</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/07/第一篇博客/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/v/v.jpg" alt="第一篇博客">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-07T13:38:47.000Z">2018-12-07</time></div>
+                    <a href="/2018/12/07/第一篇博客/" class="has-link-black-ter is-size-6">第一篇博客</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/随笔/">随笔</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!-- <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    Kun&#39;s Home
+                
+                </a> -->
+                <p class="is-size-7">
+                &copy; 2019 Kun&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
